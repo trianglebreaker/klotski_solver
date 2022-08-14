@@ -48,10 +48,10 @@ class Block:
     def anonymous_hash(self):
         # ok first: map will create an iterable with a list of all the hashed Vector2s, using the Vector2 hash function
         # then we turn it into a list so we can sort it, then into a tuple so we can hash it. totally not confusing
-        return hash(tuple(sort(list(map(lambda i: hash(i), self.cells))))
+        return hash(tuple(sort(list(map(lambda i: hash(i), self.cells)))))
     
     # today I learned onymous is the opposite of anonymous. weird
-    def onymous_hash(self)
+    def onymous_hash(self):
         return hash((cid, anonymous_hash()))
     
     def __eq__(self, other):
@@ -125,6 +125,9 @@ def board_string_to_blocks(board_string):
     
 
 def create_board_from_board_strings(initial_state, goal_position):
+    if IMMOVABLE in "".join(goal_position):
+        raise AssertionError("No immovable blocks allowed in the goal specification")
+    
     dimensions = Vector2(len(initial_state[0]), len(initial_state))
     blocks = board_string_to_blocks(initial_state)
     goal_blocks = board_string_to_blocks(goal_position)
