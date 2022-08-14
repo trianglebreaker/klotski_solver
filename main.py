@@ -1,12 +1,11 @@
-import klotski.board as board
+import klotski.board as b
 
-coord1 = board.Coordinate(1, 2)
-coord2 = board.Coordinate(2, 2)
-set1 = {coord1, coord2}
-coord2.x = 3
-
-block = board.Block.from_cells([board.Coordinate(0, 0), board.Coordinate(0, 1), board.Coordinate(1, 1)])
-
+"""
+block = b.Block("a", {b.Vector2(0, 0), b.Vector2(0, 1), b.Vector2(1, 1)})
+print(block)
+print(block.shifted_by(b.Vector2(1, 1)))
+print(block)
+"""
 
 # "#" represents an immovable block (useful for modeling non-rectangular boards)
 # "." represents an empty space where blocks can move to
@@ -14,16 +13,19 @@ block = board.Block.from_cells([board.Coordinate(0, 0), board.Coordinate(0, 1), 
 # the goal configuration should only show where the goal block(s) need(s) to go, the rest is empty
 
 start = [
-    "AA.",
-    ".BC",
-    ".DC",
+    "AACCF",
+    "!!EG.",
+    "!!EH.",
+    "BBDDI",
     ]
 
 goal = [
-    "...",
-    ".AA",
+    ".....",
+    "...!!",
+    "...!!",
+    ".....",
     ]
 
-b = board.Board.from_string_list_form(start)
-print(b)
-print(b.pretty_board_string())
+
+board = b.create_board_from_board_strings(start, goal)
+print(board)
