@@ -97,13 +97,13 @@ class Board:
     # Takes in a move object, and produces a new board with the move executed.
     # Returns None if the move is invalid (out of bounds, or overlaps a block).
     def shifted_by(self, move):
-        shifted_block = blocks[move.cid].shifted_by(move.delta)
+        shifted_block = self.blocks[move.cid].shifted_by(move.delta)
         # out of bounds check
-        if not (0 < shifted_block.position.x < self.board.dimensions.x - shifted_block.size.x or 0 < shifted_block.position.y < self.board.dimensions.y - shifted_block.size.y):
+        if not (0 < shifted_block.position.x < self.dimensions.x - shifted_block.size.x or 0 < shifted_block.position.y < self.dimensions.y - shifted_block.size.y):
             return None
         # overlap check
-        other_blocks = filter(lambda i: i.cid != shifted_block.cid, blocks.values())
-        other_points = reduce(lambda i, j: i.cells.union(j.cells), other_blocks)
+        other_blocks = list(filter(lambda i: i.cid != shifted_block.cid, self.blocks.values()))
+        other_points = reduce(lambda i, j: i | j, map(lambda i: i.cells, other_blocks))
         if other_points & shifted_block.cells != set():
             return None
         # create new board and shift piece accordingly

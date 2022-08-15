@@ -26,6 +26,11 @@ goal = [
     ".....",
     ]
 
-
 board = b.create_board_from_board_strings(start, goal)
-print(board)
+print(board.pretty_string())
+print("")
+print(board.shifted_by(b.Move("F", b.Vector2(0, 2))).pretty_string())
+
+print("")
+print(board.shifted_by(b.Move("F", b.Vector2(0, 3))))
+
