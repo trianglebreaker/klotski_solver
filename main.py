@@ -1,4 +1,4 @@
-import klotski.board as b
+import klotski.solver as b
 
 """
 block = b.Block("a", {b.Vector2(0, 0), b.Vector2(0, 1), b.Vector2(1, 1)})

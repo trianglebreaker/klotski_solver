@@ -1,5 +1,6 @@
 from .constants import *
 from functools import reduce
+import copy
 
 # A set of two numbers.
 class Vector2:
@@ -25,7 +26,7 @@ class Vector2:
 
 
 # A single block in the sliding puzzle.
-# Consists of character ID and the cells that make up the block.
+# Consists of the block's single-character ID and the cells that make up the block.
 class Block:
     # cid is a single-character string
     # cells is a set of Vector2s
@@ -35,7 +36,9 @@ class Block:
         xx = set(map(lambda i: i.x, cells))
         yy = set(map(lambda i: i.y, cells))
         self.position = Vector2(min(xx), min(yy))
+        self.size = Vector2(max(xx), max(yy)) - self.position
     
+    # returns a new block.
     # delta is a Vector2 that shifts the block
     def shifted_by(self, delta):
         return Block(self.cid, set(map(lambda i: i + delta, self.cells)))
@@ -63,6 +66,14 @@ class Block:
         return self.cid + ": " + ", ".join(map(lambda i: str(i), self.cells))
 
 
+# A representation of a single move.
+# Consists of block cid and the delta of the move.
+class Move:
+    def __init__(self, cid, delta):
+        self.cid = cid
+        self.delta = delta
+
+
 # A representation of the board and all its blocks (and any immovable tiles).
 class Board:
     # dimensions is a Vector2; x is length, y is height
@@ -83,6 +94,37 @@ class Board:
         self.blocks = blocks
         self.goal_blocks = goal_blocks
     
+    # Takes in a move object, and produces a new board with the move executed.
+    # Returns None if the move is invalid (out of bounds, or overlaps a block).
+    def shifted_by(self, move):
+        shifted_block = blocks[move.cid].shifted_by(move.delta)
+        # out of bounds check
+        if not (0 < shifted_block.position.x < self.board.dimensions.x - shifted_block.size.x or 0 < shifted_block.position.y < self.board.dimensions.y - shifted_block.size.y):
+            return None
+        # overlap check
+        other_blocks = filter(lambda i: i.cid != shifted_block.cid, blocks.values())
+        other_points = reduce(lambda i, j: i.cells.union(j.cells), other_blocks)
+        if other_points & shifted_block.cells != set():
+            return None
+        # create new board and shift piece accordingly
+        new_board = copy.deepcopy(self)
+        new_board.blocks[shifted_block.cid] = shifted_block
+        return new_board
+    
+    def pretty_string(self):
+        string_list_list = []
+        for _ in range(self.dimensions.y):
+            row = []
+            for _ in range(self.dimensions.x):
+                row.append(EMPTY)
+            string_list_list.append(row)
+        for cid, block in self.blocks.items():
+            for c in block.cells:
+                string_list_list[c.y][c.x] = cid
+        string_list_list = list(map(lambda i: "".join(i), string_list_list))
+        return "\n".join(string_list_list)
+    
+    # We want indistinguishable board positions to give the same hash
     def __hash__(self):
         h = []
         for block in blocks:
@@ -122,7 +164,7 @@ def board_string_to_blocks(board_string):
         blocks[cid] = Block(cid, cells)
     
     return blocks
-    
+
 
 def create_board_from_board_strings(initial_state, goal_position):
     if IMMOVABLE in "".join(goal_position):
