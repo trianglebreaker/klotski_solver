@@ -1,5 +1,5 @@
 from .constants import *
-from functools import reduce
+import functools
 import copy
 
 # A set of two numbers.
@@ -36,7 +36,7 @@ class Block:
         xx = set(map(lambda i: i.x, cells))
         yy = set(map(lambda i: i.y, cells))
         self.position = Vector2(min(xx), min(yy))
-        self.size = Vector2(max(xx), max(yy)) - self.position
+        self.size = Vector2(max(xx) - min(xx) + 1, max(yy) - min(yy) + 1)
     
     # returns a new block.
     # delta is a Vector2 that shifts the block
@@ -58,7 +58,7 @@ class Block:
         return hash((cid, anonymous_hash()))
     
     def __eq__(self, other):
-        cell_eq = reduce(lambda i, j: i and j, map(lambda i, j: i.x == j.x and i.y == j.y, self.cells, other.cells))
+        cell_eq = functools.reduce(lambda i, j: i and j, map(lambda i, j: i.x == j.x and i.y == j.y, self.cells, other.cells))
         cid_eq = self.cid == other.cid
         return cid_eq and cell_eq
     
@@ -79,31 +79,20 @@ class Board:
     # dimensions is a Vector2; x is length, y is height
     # blocks is a dict of block ids to Blocks for the current board state
     # goal_blocks is a dict of block ids to Blocks for the goal positions of some blocks
-    def __init__(self, dimensions, blocks, goal_blocks):
-        # verifying the goal makes sense first (shape test)
-        for block in goal_blocks.values():
-            if block.cid not in blocks:
-                raise AssertionError("Block " + block.cid + " not present on board")
-            target = blocks[block.cid]
-            block_shift = block.shifted_by(Vector2(-block.position.x, -block.position.y))
-            target_shift = target.shifted_by(Vector2(-target.position.x, -target.position.y))
-            if block_shift.cells ^ target_shift.cells != set():
-                raise AssertionError("Block " + block.cid + " in goal differently shaped than block " + block.cid + " on board")
-        
+    def __init__(self, dimensions, blocks):
         self.dimensions = dimensions
         self.blocks = blocks
-        self.goal_blocks = goal_blocks
     
     # Takes in a move object, and produces a new board with the move executed.
     # Returns None if the move is invalid (out of bounds, or overlaps a block).
     def shifted_by(self, move):
         shifted_block = self.blocks[move.cid].shifted_by(move.delta)
         # out of bounds check
-        if not (0 < shifted_block.position.x < self.dimensions.x - shifted_block.size.x or 0 < shifted_block.position.y < self.dimensions.y - shifted_block.size.y):
+        if not (0 <= shifted_block.position.x <= self.dimensions.x - shifted_block.size.x and 0 <= shifted_block.position.y <= self.dimensions.y - shifted_block.size.y):
             return None
         # overlap check
         other_blocks = list(filter(lambda i: i.cid != shifted_block.cid, self.blocks.values()))
-        other_points = reduce(lambda i, j: i | j, map(lambda i: i.cells, other_blocks))
+        other_points = functools.reduce(lambda i, j: i | j, map(lambda i: i.cells, other_blocks))
         if other_points & shifted_block.cells != set():
             return None
         # create new board and shift piece accordingly
@@ -124,11 +113,11 @@ class Board:
         string_list_list = list(map(lambda i: "".join(i), string_list_list))
         return "\n".join(string_list_list)
     
-    # We want indistinguishable board positions to give the same hash
-    def __hash__(self):
+    # We want indistinguishable board positions to give the same hash, so the goal is needed
+    def board_hash(self, goal):
         h = []
         for block in blocks:
-            if block.cid in goal_blocks:
+            if block.cid in goal.blocks:
                 h.append(block.onymous_hash())
             else:
                 h.append(block.anonymous_hash())
@@ -137,8 +126,38 @@ class Board:
     def __str__(self):
         header = "Board size: " + str(self.dimensions.x) + " wide, " + str(self.dimensions.y) + " tall"
         blocks = "\n".join(map(lambda i: str(i), self.blocks.values()))
-        goal_blocks = "\n".join(map(lambda i: str(i), self.goal_blocks.values()))
-        return header + "\nBlocks:\n" + blocks + "\nGoal blocks:\n" + goal_blocks
+        return header + "\nBlocks:\n" + blocks
+
+
+# A representation of the goal.
+# Consists only of the blocks that need to be in a certain position.
+class Goal:
+    # blocks is a dict of block ids to Blocks for the end positions of the goal blocks
+    def __init__(self, blocks):
+        if IMMOVABLE in blocks:
+            blocks.pop(IMMOVABLE)
+        self.blocks = blocks
+    
+    # Checks if the goal makes sense for this board (goal blocks exist and are the same shape)
+    def is_feasible(self, board):
+        for block in self.blocks.values():
+            # existence check
+            if block.cid not in board.blocks:
+                print("Block " + block.cid + " not present on board")
+                return False
+            # shape check
+            board_block = board.blocks[block.cid]
+            goal_block_ul_aligned = block.shifted_by(Vector2(-block.position.x, -block.position.y))
+            board_block_ul_aligned = board_block.shifted_by(Vector2(-board_block.position.x, -board_block.position.y))
+            if goal_block_ul_aligned.cells ^ board_block_ul_aligned.cells != set():
+                print("Block " + block.cid + " in goal differently shaped than block " + block.cid + " on board")
+                return False
+        return True
+    
+    # Checks if the goal has been met (goal blocks are in the right position)
+    # Assumes goal feasibility has already been checked
+    def is_fulfilled(self, board):
+        pass
 
 
 def board_string_to_blocks(board_string):
@@ -166,11 +185,13 @@ def board_string_to_blocks(board_string):
     return blocks
 
 
-def create_board_from_board_strings(initial_state, goal_position):
-    if IMMOVABLE in "".join(goal_position):
-        raise AssertionError("No immovable blocks allowed in the goal specification")
-    
-    dimensions = Vector2(len(initial_state[0]), len(initial_state))
-    blocks = board_string_to_blocks(initial_state)
-    goal_blocks = board_string_to_blocks(goal_position)
-    return Board(dimensions, blocks, goal_blocks)
+def board_from_board_string(board_string):
+    dimensions = Vector2(len(board_string[0]), len(board_string))
+    blocks = board_string_to_blocks(board_string)
+    return Board(dimensions, blocks)
+
+
+def goal_from_board_string(board_string):
+    blocks = board_string_to_blocks(board_string)
+    return Goal(blocks)
+
