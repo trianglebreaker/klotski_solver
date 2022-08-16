@@ -8,10 +8,4 @@ C D .
 
 . . .
 . . .
-# . .
-
-% Dummy
-
-F F F
-F F F
-F F F
+# A A

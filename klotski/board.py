@@ -143,7 +143,7 @@ class Goal:
         for block in self.blocks.values():
             # existence check
             if block.cid not in board.blocks:
-                print("Block " + block.cid + " not present on board")
+                print("Block " + block.cid + " present in goal but not on board")
                 return False
             # shape check
             board_block = board.blocks[block.cid]
@@ -158,6 +158,10 @@ class Goal:
     # Assumes goal feasibility has already been checked
     def is_fulfilled(self, board):
         pass
+    
+    def __str__(self):
+        blocks = "\n".join(map(lambda i: str(i), self.blocks.values()))
+        return "Goal blocks:\n" + blocks
 
 
 def board_string_to_blocks(board_string):
@@ -167,7 +171,8 @@ def board_string_to_blocks(board_string):
     
     for y, row in enumerate(board_string):
         if (len(row) != length):
-            raise AssertionError("Board strings are of unequal length (use \"" + IMMOVABLE + "\" for solid immovable cells)")
+            print("Board string doesn't specify a rectangular board (use \"" + IMMOVABLE + "\" for solid immovable cells)")
+            quit()
         for x, cid in enumerate(board_string[y]):
             if cid == EMPTY: continue
             if cid not in cell_groups:
