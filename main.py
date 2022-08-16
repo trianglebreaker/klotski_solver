@@ -40,12 +40,14 @@ goal = [
 
 
 
-
+'''
 board = klotski.board_from_board_string(start)
 print(board.pretty_string())
 print("")
 print(board.shifted_by(klotski.Move("B", klotski.Vector2(0, 2))).pretty_string())
 print("")
 print(board.shifted_by(klotski.Move("B", klotski.Vector2(0, 3))))
+'''
 
+print(klotski.read_board_strings_from_file("./examples/diabolical_box.txt"))
 
