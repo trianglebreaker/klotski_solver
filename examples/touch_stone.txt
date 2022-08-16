@@ -1,0 +1,34 @@
+$ This puzzle won't be solvable in the current version of the solver
+$ It requires multiple pieces to be movable together under certain circumstances, which isn't implemented
+
+% Start
+
+# # # Y Y # # #
+. . . Y . . . .
+. A A Y Y . D D
+C A A X X B B D
+C C . Z Z B B .
+. . . . Z . . .
+# # # Z Z # # #
+
+% Goal 
+
+# # # . . # # #
+. . . . . . . .
+. . Y Y Z Z . .
+. . Y X X Z . .
+. . Y Y Z Z . .
+. . . . . . . .
+# # # . . # # #
+
+% Unit
+
+Y Y .
+Y X X
+Y Y .
+
+% Unit
+
+. Z Z
+X X Z
+. Z Z

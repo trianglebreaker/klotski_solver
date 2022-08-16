@@ -1,0 +1,17 @@
+% Start
+
+A A B
+C D .
+# . .
+
+% Goal 
+
+. . .
+. . .
+# . .
+
+% Dummy
+
+F F F
+F F F
+F F F

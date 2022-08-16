@@ -1,0 +1,23 @@
+$ Multiple goal pieces can be specified
+$ In cases where the source puzzle is vague, it's up to you to figure out where the goal pieces need to go
+$ because the solver will aim for the specific configuration you specify
+
+% Start
+
+# # . B B # #
+. . . . B C #
+. E . C C C .
+E E . H . A A
+E D . F . A G
+# D D F F G G
+# # . F . # #
+
+% Goal
+
+# # . . . # #
+. A A E B B #
+. A E E F B .
+. D E H F F .
+. D D C F G .
+# C C C G G .
+# # . . . # #
