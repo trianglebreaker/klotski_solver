@@ -16,20 +16,20 @@ The three puzzles mentioned above are included in the `examples` folder to show 
 (with verbose output turned on in the code)
 ```
 $ python3 main.py ./examples/queens_escape.txt
-Successfully loaded puzzle (took 0.0004177093505859375 seconds)
-Searched solution depth 1 (8 possible paths, took 0.00613856315612793 seconds)
-Searched solution depth 2 (10 possible paths, took 0.018468141555786133 seconds)
-Searched solution depth 3 (15 possible paths, took 0.024233341217041016 seconds)
+Successfully loaded puzzle (took 0.0007970333099365234 seconds)
+Searched solution depth 1 (8 possible paths, took 0.003138303756713867 seconds)
+Searched solution depth 2 (10 possible paths, took 0.0069048404693603516 seconds)
+Searched solution depth 3 (15 possible paths, took 0.009195327758789062 seconds)
 ...
-Searched solution depth 78 (242 possible paths, took 1.2743418216705322 seconds)
-Searched solution depth 79 (201 possible paths, took 1.083054542541504 seconds)
-Searched solution depth 80 (159 possible paths, took 0.8214399814605713 seconds)
-Found a solution of length 81 moves (took 93.02886247634888 seconds). Saving solution...
+Searched solution depth 78 (242 possible paths, took 0.520179271697998 seconds)
+Searched solution depth 79 (201 possible paths, took 0.47776293754577637 seconds)
+Searched solution depth 80 (159 possible paths, took 0.3911776542663574 seconds)
+Found a solution of length 81 moves (took 39.795703649520874 seconds). Saving solution...
 Solution saved to ./examples/queens_escape_solution.txt
 ```
 
 ## Todo
-- Optimize this. It's really really slow right now; 90 seconds to solve the classic puzzle is honestly kind of embarrassing.
+- Optimize this. It's really really slow right now; 40 seconds to solve the classic puzzle is bad enough, but half an hour to solve *Diabolical Box* is kind of embarrassing.
 - Add support for moving multiple pieces at once under certain circumstances ("Touch Stone" from *Last Specter/Spectre's Call*)
 
 ## Thanks
