@@ -55,9 +55,9 @@ def main():
     print("Found a solution of length {1} moves (took {0} seconds). Saving solution...".format(t2 - t1, solution_path.solution_length()))
     
     # writing solution to file goes here
+    klotski.write_solution_to_file(solution_filepath, solution_path, board)
     
     print("Solution saved to {}".format(solution_filepath))
 
 
 main()
-

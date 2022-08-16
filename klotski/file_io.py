@@ -1,4 +1,5 @@
 from .constants import *
+from .solver import *
 import re
 
 # Reads a text file for sliding puzzle data.
@@ -32,3 +33,19 @@ def read_board_strings_from_file(path):
                 current_board.append(line)
     
     return boards
+
+
+# Writes the step-by-step solution to a text file.
+def write_solution_to_file(path, solution_path, initial_board):
+    with open(path, mode = "w") as file:
+        current_board = initial_board
+        
+        file.write("====================\nInitial board state\n====================\n\n")
+        file.write(initial_board.pretty_string() + "\n\n")
+        file.write("====================\nSolution ({} moves)\n====================\n".format(len(solution_path.move_history)))
+        
+        for i, move in enumerate(solution_path.move_history):
+            file.write("\nStep {0}: Move block {1}\n\n".format(i + 1, move.cid))
+            current_board = current_board.shifted_by(move)
+            file.write(current_board.pretty_string())
+            file.write("\n")

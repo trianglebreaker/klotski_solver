@@ -1,0 +1,53 @@
+====================
+Initial board state
+====================
+
+AAB
+CD.
+#..
+
+====================
+Solution (7 moves)
+====================
+
+Step 1: Move block D
+
+AAB
+C..
+#D.
+
+Step 2: Move block C
+
+AAB
+..C
+#D.
+
+Step 3: Move block A
+
+..B
+AAC
+#D.
+
+Step 4: Move block B
+
+B..
+AAC
+#D.
+
+Step 5: Move block C
+
+BC.
+AA.
+#D.
+
+Step 6: Move block D
+
+BCD
+AA.
+#..
+
+Step 7: Move block A
+
+BCD
+...
+#AA
