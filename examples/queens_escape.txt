@@ -1,9 +1,8 @@
-$ Each new line is a row of the puzzle, and each unique character represents a block
-$ Lines starting with a $ are comments, and are ignored
-$ Lines starting with % mark the start of a board; the board continues until another % line or EOF
-$ The first board is always the start board, and the second is always the goal board. Others are ignored
-$ The goal board only needs to show where goal pieces need to go
-$ Spaces and empty lines are ignored; the "." character represents a space in the puzzle that blocks can move through
+$ Each new line is a row of the puzzle, and each unique character represents a block.
+$ A line starting with a % marks the start of a new board. Boards continue until another %, or the end of the file.
+$ The first board is always the start board, and the second is always the goal board. Others are ignored.
+$ Spaces and empty lines are ignored; the "." character represents a space in the puzzle that blocks can move through.
+$ Lines starting with a $ are comments, and are ignored.
 
 % Start
 
@@ -12,6 +11,7 @@ X X E G .
 X X E H .
 B B D D I
 
+$ The goal board only needs to show where goal pieces need to go.
 % Goal 
 
 . . . . .

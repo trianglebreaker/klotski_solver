@@ -1,6 +1,6 @@
-$ The "#" character represents an immovable solid tile that blocks cannot move through
-$ This is used to simulate irregularly shaped boards, as the board still needs to be rectangular
-$ #s can be included in the solution to make it easier to place the goal, but aren't necessary
+$ The "#" character represents an immovable solid tile that blocks cannot move through.
+$ This is used to simulate irregularly shaped boards, as the board still needs to be rectangular.
+$ #s can be included in the solution to make it easier to place the goal, but aren't necessary.
 
 % Start
 

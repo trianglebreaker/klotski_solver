@@ -1,5 +1,5 @@
-$ This puzzle won't be solvable in the current version of the solver
-$ It requires multiple pieces to be movable together under certain circumstances, which isn't implemented
+$ This puzzle won't be solvable in the current version of the solver.
+$ It requires multiple pieces to be movable together under certain circumstances, which isn't implemented.
 
 % Start
 

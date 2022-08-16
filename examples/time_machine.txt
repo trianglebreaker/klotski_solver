@@ -1,6 +1,5 @@
-$ Multiple goal pieces can be specified
-$ In cases where the source puzzle is vague, it's up to you to figure out where the goal pieces need to go
-$ because the solver will aim for the specific configuration you specify
+$ Multiple goal pieces can be specified.
+$ However, the solver will only aim for the specific goal configuration you specify.
 
 % Start
 

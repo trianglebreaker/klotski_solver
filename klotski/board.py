@@ -51,11 +51,13 @@ class Block:
     def anonymous_hash(self):
         # ok first: map will create an iterable with a list of all the hashed Vector2s, using the Vector2 hash function
         # then we turn it into a list so we can sort it, then into a tuple so we can hash it. totally not confusing
-        return hash(tuple(sort(list(map(lambda i: hash(i), self.cells)))))
+        h = list(map(lambda i: hash(i), self.cells))
+        h.sort()
+        return hash(tuple(h))
     
     # today I learned onymous is the opposite of anonymous. weird
     def onymous_hash(self):
-        return hash((cid, anonymous_hash()))
+        return hash((self.cid, self.anonymous_hash()))
     
     def __eq__(self, other):
         cell_eq = functools.reduce(lambda i, j: i and j, map(lambda i, j: i.x == j.x and i.y == j.y, self.cells, other.cells))
@@ -116,12 +118,13 @@ class Board:
     # We want indistinguishable board positions to give the same hash, so the goal is needed
     def board_hash(self, goal):
         h = []
-        for block in blocks:
+        for block in self.blocks.values():
             if block.cid in goal.blocks:
                 h.append(block.onymous_hash())
             else:
                 h.append(block.anonymous_hash())
-        return hash(tuple(sort(h)))
+        h.sort()
+        return hash(tuple(h))
     
     def __str__(self):
         header = "Board size: " + str(self.dimensions.x) + " wide, " + str(self.dimensions.y) + " tall"
@@ -155,16 +158,19 @@ class Goal:
         return True
     
     # Checks if the goal has been met (goal blocks are in the right position)
-    # Assumes goal feasibility has already been checked
+    # Assumes all the blocks exist
     def is_fulfilled(self, board):
-        pass
+        for block in self.blocks.values():
+            if block != board.blocks[block.cid]:
+                return False
+        return True
     
     def __str__(self):
         blocks = "\n".join(map(lambda i: str(i), self.blocks.values()))
         return "Goal blocks:\n" + blocks
 
 
-def board_string_to_blocks(board_string):
+def _board_string_to_blocks(board_string):
     length = len(board_string[0])
     height = len(board_string)
     cell_groups = {}
@@ -192,11 +198,11 @@ def board_string_to_blocks(board_string):
 
 def board_from_board_string(board_string):
     dimensions = Vector2(len(board_string[0]), len(board_string))
-    blocks = board_string_to_blocks(board_string)
+    blocks = _board_string_to_blocks(board_string)
     return Board(dimensions, blocks)
 
 
 def goal_from_board_string(board_string):
-    blocks = board_string_to_blocks(board_string)
+    blocks = _board_string_to_blocks(board_string)
     return Goal(blocks)
 
