@@ -1,6 +1,6 @@
 from .constants import *
 import functools
-import copy
+import pickle
 
 # A set of two numbers.
 class Vector2:
@@ -98,7 +98,7 @@ class Board:
         if other_points & shifted_block.cells != set():
             return None
         # create new board and shift piece accordingly
-        new_board = copy.deepcopy(self)
+        new_board = pickle.loads(pickle.dumps(self))
         new_board.blocks[shifted_block.cid] = shifted_block
         return new_board
     

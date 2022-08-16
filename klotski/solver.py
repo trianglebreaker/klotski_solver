@@ -1,5 +1,5 @@
 from .board import *
-import copy
+import pickle
 import time
 import itertools
 
@@ -68,7 +68,7 @@ def _generate_all_block_moves(path, cid):
                 new_move = Move(cid, v)
                 new_board = path.current_board.shifted_by(new_move)
                 if new_board is not None: # if the move is valid, add it to the list of move paths
-                    new_path = copy.deepcopy(path)
+                    new_path = pickle.loads(pickle.dumps(path))
                     new_path.current_board = new_board
                     new_path.move_history.append(new_move)
                     all_block_move_paths.append(new_path)
@@ -90,7 +90,7 @@ def _generate_new_paths(paths):
     
     for path in paths:
         new_paths = [] # new ones from the current path we're checking
-        blocks_to_move = copy.copy(all_block_cids)
+        blocks_to_move = {i for i in all_block_cids}
         blocks_to_move.discard(path.last_moved_block())
         
         for cid in blocks_to_move:
