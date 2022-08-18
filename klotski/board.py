@@ -92,8 +92,14 @@ class Board:
         if not (0 <= shifted_block.position.x <= self.dimensions.x - shifted_block.size.x and 0 <= shifted_block.position.y <= self.dimensions.y - shifted_block.size.y):
             return None
         # overlap check
-        other_blocks = list(filter(lambda i: i.cid != shifted_block.cid, self.blocks.values()))
-        other_points = functools.reduce(lambda i, j: i | j, map(lambda i: i.cells, other_blocks))
+        
+        # other_blocks = list(filter(lambda i: i.cid != shifted_block.cid, self.blocks.values()))
+        # other_points = functools.reduce(lambda i, j: i | j, map(lambda i: i.cells, other_blocks))
+        original_block = self.blocks[move.cid]
+        self.blocks.pop(move.cid)
+        other_points = functools.reduce(lambda i, j: i | j, map(lambda i: i.cells, self.blocks.values()))
+        self.blocks[move.cid] = original_block
+        
         if other_points & shifted_block.cells != set():
             return None
         # create new board and shift piece accordingly

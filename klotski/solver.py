@@ -49,6 +49,9 @@ class SolutionPath:
     
     def solution_length(self):
         return len(self.move_history)
+    
+    def clone(self):
+        return SolutionPath(self.current_board.clone(), [i for i in self.move_history])
 
 
 # Generates a list of all possible paths one move deeper via moving block cid.
@@ -68,7 +71,7 @@ def _generate_all_block_moves(path, cid):
                 new_move = Move(cid, v)
                 new_board = path.current_board.shifted_by(new_move)
                 if new_board is not None: # if the move is valid, add it to the list of move paths
-                    new_path = pickle.loads(pickle.dumps(path))
+                    new_path = path.clone()
                     new_path.current_board = new_board
                     new_path.move_history.append(new_move)
                     all_block_move_paths.append(new_path)

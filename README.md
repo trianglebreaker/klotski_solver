@@ -16,21 +16,22 @@ The three puzzles mentioned above are included in the `examples` folder to show 
 (with verbose output turned on in the code)
 ```
 $ python3 main.py ./examples/queens_escape.txt
-Successfully loaded puzzle (took 0.0007970333099365234 seconds)
-Searched solution depth 1 (8 possible paths, took 0.003138303756713867 seconds)
-Searched solution depth 2 (10 possible paths, took 0.0069048404693603516 seconds)
-Searched solution depth 3 (15 possible paths, took 0.009195327758789062 seconds)
+Successfully loaded puzzle (took 0.0003650188446044922 seconds)
+Searched solution depth 1 (8 possible paths, took 0.0005521774291992188 seconds)
+Searched solution depth 2 (10 possible paths, took 0.005505084991455078 seconds)
+Searched solution depth 3 (15 possible paths, took 0.0034568309783935547 seconds)
 ...
-Searched solution depth 78 (242 possible paths, took 0.520179271697998 seconds)
-Searched solution depth 79 (201 possible paths, took 0.47776293754577637 seconds)
-Searched solution depth 80 (159 possible paths, took 0.3911776542663574 seconds)
-Found a solution of length 81 moves (took 39.795703649520874 seconds). Saving solution...
+Searched solution depth 78 (242 possible paths, took 0.08317828178405762 seconds)
+Searched solution depth 79 (201 possible paths, took 0.07758283615112305 seconds)
+Searched solution depth 80 (159 possible paths, took 0.0615544319152832 seconds)
+Found a solution of length 81 moves (took 7.984530925750732 seconds). Saving solution...
 Solution saved to ./examples/queens_escape_solution.txt
 ```
 
 ## Todo
-- Optimize this. It's really really slow right now; 40 seconds to solve the classic puzzle is bad enough, but half an hour to solve *Diabolical Box* is kind of embarrassing.
-- Add support for moving multiple pieces at once under certain circumstances ("Touch Stone" from *Last Specter/Spectre's Call*)
+- Optimize this further if possible; it's not very fast. My tests showed the program took 8 seconds to solve "Queen's Escape", 4 minutes to solve "The Diabolical Box", and is not going to solve "The Time Machine" anytime soon.
+  - Granted, puzzles like "The Diabolical Box" and "The Time Machine" don't benefit much from trimming move paths. Every piece is uniquely shaped in both puzzles, and every piece is a goal piece in the latter puzzle.
+- Add support for moving multiple pieces at once under certain circumstances (this would allow it to solve "Touch Stone" from *Last Specter/Spectre's Call*, albeit with a slightly incorrect move count)
 
 ## Thanks
 Credit goes to this article for giving me the push I needed to actually try this. I decided to use Python instead of Scala as the author did here (and took the chance to brush up on it), but much of the same concepts apply.  
