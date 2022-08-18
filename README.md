@@ -29,8 +29,8 @@ Solution saved to ./examples/queens_escape_solution.txt
 ```
 
 ## Todo
-- Optimize this further if possible; it's not very fast. My tests showed the program took 8 seconds to solve "Queen's Escape", 4 minutes to solve "The Diabolical Box", and is not going to solve "The Time Machine" anytime soon.
-  - Granted, puzzles like "The Diabolical Box" and "The Time Machine" don't benefit much from trimming move paths. Every piece is uniquely shaped in both puzzles, and every piece is a goal piece in the latter puzzle.
+- Optimize this further if possible; it's not very fast. My tests showed the program took 5 seconds to solve "Queen's Escape", 75 seconds to solve "The Diabolical Box", and is not going to solve "The Time Machine" anytime soon (I gave up after 10 minutes).
+  - Granted, puzzles like "The Diabolical Box" and "The Time Machine" don't benefit much from trimming move paths because every piece shape is unique. Worse, the latter quickly suffers from Exploding Tree™; it broke the 100000-path mark 22 moves in, and as of the 25th move there were nearly 400000 possibilities.
 - Add support for moving multiple pieces at once under certain circumstances (this would allow it to solve "Touch Stone" from *Last Specter/Spectre's Call*, albeit with a slightly incorrect move count)
 
 ## Thanks
