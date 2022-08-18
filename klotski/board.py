@@ -107,9 +107,9 @@ class Board:
         new_board.blocks[shifted_block.cid] = shifted_block
         return new_board
     
-    # returns an identical copy of the board
+    # returns a shallow copy of the board
     def clone(self):
-        return Board(self.dimensions, {i: j for i, j in self.blocks.items()})
+        return Board(self.dimensions, self.blocks.copy())
     
     def pretty_string(self):
         string_list_list = []
