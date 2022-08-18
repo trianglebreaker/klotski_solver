@@ -1,6 +1,5 @@
 from .constants import *
 import functools
-import pickle
 
 # A set of two numbers.
 class Vector2:
@@ -30,27 +29,27 @@ class Vector2:
 class Block:
     # cid is a single-character string
     # cells is a set of Vector2s
-    def __init__(self, cid, cells):
+    def __init__(self, cid, cells, position = None, size = None):
         self.cid = cid
         self.cells = cells
-        xx = set(map(lambda i: i.x, cells))
-        yy = set(map(lambda i: i.y, cells))
-        self.position = Vector2(min(xx), min(yy))
-        self.size = Vector2(max(xx) - min(xx) + 1, max(yy) - min(yy) + 1)
+        if position is None or size is None:
+            xx = set(map(lambda i: i.x, cells))
+            yy = set(map(lambda i: i.y, cells))
+            self.position = Vector2(min(xx), min(yy))
+            self.size = Vector2(max(xx) + 1, max(yy) + 1) - self.position
+        else:
+            self.position = position
+            self.size = size
     
     # returns a new block.
     # delta is a Vector2 that shifts the block
     def shifted_by(self, delta):
-        return Block(self.cid, set(map(lambda i: i + delta, self.cells)))
+        return Block(self.cid, set(map(lambda i: i + delta, self.cells)), self.position + delta, self.size)
     
     # anonymous_hash creates a hash of the block that doesn't take its cid into account.
     # Thus, two blocks with the same shape and position should give the same hash.
-    # This lets us combine identical configurations of non-goal blocks (eg. AB and BA)
-    # and save on search time.
     # https://alaraph.com/2021/09/10/solving-the-klotski-puzzle-in-scala/
     def anonymous_hash(self):
-        # ok first: map will create an iterable with a list of all the hashed Vector2s, using the Vector2 hash function
-        # then we turn it into a list so we can sort it, then into a tuple so we can hash it. totally not confusing
         h = list(map(lambda i: hash(i), self.cells))
         h.sort()
         return hash(tuple(h))
@@ -98,9 +97,13 @@ class Board:
         if other_points & shifted_block.cells != set():
             return None
         # create new board and shift piece accordingly
-        new_board = pickle.loads(pickle.dumps(self))
+        new_board = self.clone()
         new_board.blocks[shifted_block.cid] = shifted_block
         return new_board
+    
+    # returns an identical copy of the board
+    def clone(self):
+        return Board(self.dimensions, {i: j for i, j in self.blocks.items()})
     
     def pretty_string(self):
         string_list_list = []
