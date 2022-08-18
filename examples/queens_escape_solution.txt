@@ -1,0 +1,579 @@
+====================
+Initial board state
+====================
+
+AACCF
+XXEG.
+XXEH.
+BBDDI
+
+====================
+Solution (81 moves)
+====================
+
+Step 1: Move block G
+
+AACCF
+XXE.G
+XXEH.
+BBDDI
+
+Step 2: Move block I
+
+AACCF
+XXE.G
+XXEHI
+BBDD.
+
+Step 3: Move block D
+
+AACCF
+XXE.G
+XXEHI
+BB.DD
+
+Step 4: Move block E
+
+AACCF
+XX..G
+XXEHI
+BBEDD
+
+Step 5: Move block C
+
+AA..F
+XXCCG
+XXEHI
+BBEDD
+
+Step 6: Move block F
+
+AA.F.
+XXCCG
+XXEHI
+BBEDD
+
+Step 7: Move block G
+
+AA.FG
+XXCC.
+XXEHI
+BBEDD
+
+Step 8: Move block C
+
+AA.FG
+XX.CC
+XXEHI
+BBEDD
+
+Step 9: Move block E
+
+AAEFG
+XXECC
+XX.HI
+BB.DD
+
+Step 10: Move block H
+
+AAEFG
+XXECC
+XX..I
+BBHDD
+
+Step 11: Move block I
+
+AAEFG
+XXECC
+XXI..
+BBHDD
+
+Step 12: Move block C
+
+AAEFG
+XXE..
+XXICC
+BBHDD
+
+Step 13: Move block F
+
+AAE.G
+XXE.F
+XXICC
+BBHDD
+
+Step 14: Move block E
+
+AA.EG
+XX.EF
+XXICC
+BBHDD
+
+Step 15: Move block I
+
+AAIEG
+XX.EF
+XX.CC
+BBHDD
+
+Step 16: Move block H
+
+AAIEG
+XXHEF
+XX.CC
+BB.DD
+
+Step 17: Move block C
+
+AAIEG
+XXHEF
+XXCC.
+BB.DD
+
+Step 18: Move block D
+
+AAIEG
+XXHEF
+XXCC.
+BBDD.
+
+Step 19: Move block F
+
+AAIEG
+XXHE.
+XXCC.
+BBDDF
+
+Step 20: Move block G
+
+AAIE.
+XXHE.
+XXCCG
+BBDDF
+
+Step 21: Move block E
+
+AAI.E
+XXH.E
+XXCCG
+BBDDF
+
+Step 22: Move block H
+
+AAIHE
+XX..E
+XXCCG
+BBDDF
+
+Step 23: Move block C
+
+AAIHE
+XXCCE
+XX..G
+BBDDF
+
+Step 24: Move block D
+
+AAIHE
+XXCCE
+XXDDG
+BB..F
+
+Step 25: Move block B
+
+AAIHE
+XXCCE
+XXDDG
+..BBF
+
+Step 26: Move block X
+
+AAIHE
+..CCE
+XXDDG
+XXBBF
+
+Step 27: Move block A
+
+..IHE
+AACCE
+XXDDG
+XXBBF
+
+Step 28: Move block I
+
+I..HE
+AACCE
+XXDDG
+XXBBF
+
+Step 29: Move block H
+
+IH..E
+AACCE
+XXDDG
+XXBBF
+
+Step 30: Move block C
+
+IHCCE
+AA..E
+XXDDG
+XXBBF
+
+Step 31: Move block A
+
+IHCCE
+..AAE
+XXDDG
+XXBBF
+
+Step 32: Move block X
+
+IHCCE
+XXAAE
+XXDDG
+..BBF
+
+Step 33: Move block B
+
+IHCCE
+XXAAE
+XXDDG
+BB..F
+
+Step 34: Move block D
+
+IHCCE
+XXAAE
+XX..G
+BBDDF
+
+Step 35: Move block G
+
+IHCCE
+XXAAE
+XXG..
+BBDDF
+
+Step 36: Move block F
+
+IHCCE
+XXAAE
+XXGF.
+BBDD.
+
+Step 37: Move block E
+
+IHCC.
+XXAA.
+XXGFE
+BBDDE
+
+Step 38: Move block C
+
+IH.CC
+XXAA.
+XXGFE
+BBDDE
+
+Step 39: Move block A
+
+IH.CC
+XX.AA
+XXGFE
+BBDDE
+
+Step 40: Move block G
+
+IHGCC
+XX.AA
+XX.FE
+BBDDE
+
+Step 41: Move block X
+
+IHGCC
+.XXAA
+.XXFE
+BBDDE
+
+Step 42: Move block I
+
+.HGCC
+.XXAA
+IXXFE
+BBDDE
+
+Step 43: Move block H
+
+..GCC
+HXXAA
+IXXFE
+BBDDE
+
+Step 44: Move block G
+
+G..CC
+HXXAA
+IXXFE
+BBDDE
+
+Step 45: Move block C
+
+GCC..
+HXXAA
+IXXFE
+BBDDE
+
+Step 46: Move block A
+
+GCCAA
+HXX..
+IXXFE
+BBDDE
+
+Step 47: Move block F
+
+GCCAA
+HXX.F
+IXX.E
+BBDDE
+
+Step 48: Move block X
+
+GCCAA
+H.XXF
+I.XXE
+BBDDE
+
+Step 49: Move block I
+
+GCCAA
+HIXXF
+..XXE
+BBDDE
+
+Step 50: Move block B
+
+GCCAA
+HIXXF
+BBXXE
+..DDE
+
+Step 51: Move block D
+
+GCCAA
+HIXXF
+BBXXE
+DD..E
+
+Step 52: Move block X
+
+GCCAA
+HI..F
+BBXXE
+DDXXE
+
+Step 53: Move block I
+
+GCCAA
+H.I.F
+BBXXE
+DDXXE
+
+Step 54: Move block H
+
+GCCAA
+.HI.F
+BBXXE
+DDXXE
+
+Step 55: Move block G
+
+.CCAA
+GHI.F
+BBXXE
+DDXXE
+
+Step 56: Move block C
+
+CC.AA
+GHI.F
+BBXXE
+DDXXE
+
+Step 57: Move block A
+
+CCAA.
+GHI.F
+BBXXE
+DDXXE
+
+Step 58: Move block F
+
+CCAAF
+GHI..
+BBXXE
+DDXXE
+
+Step 59: Move block I
+
+CCAAF
+GH..I
+BBXXE
+DDXXE
+
+Step 60: Move block X
+
+CCAAF
+GHXXI
+BBXXE
+DD..E
+
+Step 61: Move block D
+
+CCAAF
+GHXXI
+BBXXE
+..DDE
+
+Step 62: Move block B
+
+CCAAF
+GHXXI
+..XXE
+BBDDE
+
+Step 63: Move block G
+
+CCAAF
+.HXXI
+G.XXE
+BBDDE
+
+Step 64: Move block H
+
+CCAAF
+..XXI
+GHXXE
+BBDDE
+
+Step 65: Move block C
+
+..AAF
+CCXXI
+GHXXE
+BBDDE
+
+Step 66: Move block A
+
+AA..F
+CCXXI
+GHXXE
+BBDDE
+
+Step 67: Move block X
+
+AAXXF
+CCXXI
+GH..E
+BBDDE
+
+Step 68: Move block H
+
+AAXXF
+CCXXI
+G..HE
+BBDDE
+
+Step 69: Move block G
+
+AAXXF
+CCXXI
+..GHE
+BBDDE
+
+Step 70: Move block B
+
+AAXXF
+CCXXI
+BBGHE
+..DDE
+
+Step 71: Move block D
+
+AAXXF
+CCXXI
+BBGHE
+DD..E
+
+Step 72: Move block H
+
+AAXXF
+CCXXI
+BBG.E
+DDH.E
+
+Step 73: Move block E
+
+AAXXF
+CCXXI
+BBGE.
+DDHE.
+
+Step 74: Move block I
+
+AAXXF
+CCXX.
+BBGE.
+DDHEI
+
+Step 75: Move block F
+
+AAXX.
+CCXX.
+BBGEF
+DDHEI
+
+Step 76: Move block X
+
+AA.XX
+CC.XX
+BBGEF
+DDHEI
+
+Step 77: Move block G
+
+AAGXX
+CC.XX
+BB.EF
+DDHEI
+
+Step 78: Move block H
+
+AAGXX
+CCHXX
+BB.EF
+DD.EI
+
+Step 79: Move block E
+
+AAGXX
+CCHXX
+BBE.F
+DDE.I
+
+Step 80: Move block F
+
+AAGXX
+CCHXX
+BBE..
+DDEFI
+
+Step 81: Move block X
+
+AAG..
+CCHXX
+BBEXX
+DDEFI

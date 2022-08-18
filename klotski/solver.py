@@ -1,4 +1,6 @@
 from .board import *
+from multiprocessing import cpu_count
+import concurrent.futures
 import time
 import itertools
 
@@ -62,7 +64,6 @@ def _generate_new_paths(paths):
     all_block_cids.discard(IMMOVABLE)
     
     for path in paths:
-        new_paths = [] # new ones from the current path we're checking
         blocks_to_move = {i for i in all_block_cids}
         blocks_to_move.discard(path.last_moved_block())
         
@@ -72,6 +73,13 @@ def _generate_new_paths(paths):
     return all_new_paths
 
 
+# Same as above, but does so for only one path.
+def _generate_new_paths_single(path):    
+    blocks_to_move = set(path.current_board.blocks.keys())
+    blocks_to_move.discard(IMMOVABLE)
+    blocks_to_move.discard(path.last_moved_block())
+    return list(itertools.chain.from_iterable([_generate_all_block_moves(path, cid) for cid in blocks_to_move]))
+
 # Returns a SolutionPath that led to the solution, or returns None if failed
 # (whether by exceeding max search depth or by getting stuck)
 def find_solution(board, goal, max_search_depth, verbose = False):
@@ -80,31 +88,37 @@ def find_solution(board, goal, max_search_depth, verbose = False):
     t0 = time.time()
     t1 = time.time()
     
-    for i in range(max_search_depth): # current search depth = i + 1
-        potential_new_paths = _generate_new_paths(current_paths)
-        
-        # verify board uniqueness
-        new_paths = []
-        for path in potential_new_paths:
-            board_hash = path.current_board.board_hash(goal)
-            if board_hash not in explored_board_positions:
-                explored_board_positions.add(board_hash)
-                new_paths.append(path)
-                
-                # also verify the solution while we're at it
-                if goal.is_fulfilled(path.current_board):
-                    return path
-        
-        if not new_paths:
-            print("Can't reach the goal state from this board configuration")
-            return None
-        
-        current_paths = new_paths
-        
-        if verbose:
-            t1 = time.time()
-            print("Searched solution depth {0} ({1} possible paths, took {2} seconds)".format(i + 1, len(current_paths), t1 - t0))
-            t0 = t1
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for i in range(max_search_depth): # current search depth = i + 1
+            
+            # potential_new_paths = _generate_new_paths(current_paths)
+            
+            chunks = len(current_paths) // cpu_count()
+            chunks = chunks if chunks > 1 else 1
+            potential_new_paths = list(itertools.chain.from_iterable(executor.map(_generate_new_paths_single, current_paths, chunksize = chunks)))
+            
+            # verify board uniqueness
+            new_paths = []
+            for path in potential_new_paths:
+                board_hash = path.current_board.board_hash(goal)
+                if board_hash not in explored_board_positions:
+                    explored_board_positions.add(board_hash)
+                    new_paths.append(path)
+                    
+                    # also verify the solution while we're at it
+                    if goal.is_fulfilled(path.current_board):
+                        return path
+            
+            if not new_paths:
+                print("Can't reach the goal state from this board configuration")
+                return None
+            
+            current_paths = new_paths
+            
+            if verbose:
+                t1 = time.time()
+                print("Searched solution depth {0} ({1} possible paths, took {2} seconds)".format(i + 1, len(current_paths), t1 - t0))
+                t0 = t1
             
         
     print("Couldn't find a solution within {} moves".format(max_search_depth))
